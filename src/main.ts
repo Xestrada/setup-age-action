@@ -21,7 +21,7 @@ async function getAgePath(version: string): Promise<string> {
     return foundCachePath
   }
 
-  let platform = os.platform()
+  let platform: string = os.platform()
   if (platform === 'win32') {
     platform = 'windows'
   }
