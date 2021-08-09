@@ -8,16 +8,14 @@ Basic:
 
 ```yaml
 steps:
-  - uses: adnsio/setup-age-action@v1.0.0
-  - run: age --version
+  - uses: Xestrada/setup-age-action@v1.0.4
 ```
 
 Specific version:
 
 ```yaml
 steps:
-  - uses: adnsio/setup-age-action@v1.0.0
+  - uses: Xestrada/setup-age-action@v1.0.4
     with:
       version: 1.0.0-rc.3
-  - run: age --version
 ```

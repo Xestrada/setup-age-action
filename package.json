@@ -1,6 +1,6 @@
 {
   "name": "setup-age-action",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Setup age and add it to the PATH",
   "main": "./lib/main.js",
   "repository": "git@github.com:adnsio/setup-age-action.git",

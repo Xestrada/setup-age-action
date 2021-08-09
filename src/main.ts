@@ -21,7 +21,10 @@ async function getAgePath(version: string): Promise<string> {
     return foundCachePath
   }
 
-  const platform: string = 'windows';
+  let platform: string = os.platform();
+  if (platform === 'win32') {
+    platform = 'windows';
+  }
   const arch = getArch(os.arch())
   const downloadUrl = `https://github.com/FiloSottile/age/releases/download/${version}/age-${version}-${platform}-${arch}.tar.gz`
 
