@@ -22,18 +22,20 @@ async function getAgePath(version: string): Promise<string> {
   }
 
   let platform: string = os.platform();
+  let fileType = 'tar.gz';
   if (platform === 'win32') {
     platform = 'windows';
+    fileType = 'zip';
   }
   const arch = getArch(os.arch())
-  const downloadUrl = `https://github.com/FiloSottile/age/releases/download/${version}/age-${version}-${platform}-${arch}.tar.gz`
+  const downloadUrl = `https://github.com/FiloSottile/age/releases/download/${version}/age-${version}-${platform}-${arch}.${fileType}`
 
   core.info(`Downloading age version ${version} from ${downloadUrl}`)
   const downloadPath = await toolCache.downloadTool(downloadUrl)
   core.info(`Successfully downloaded age to ${downloadPath}`)
 
   core.info("Extracting age...")
-  const extractPath = await toolCache.extractTar(downloadPath)
+  const extractPath = fileType === 'zip' ? await toolCache.extractZip(downloadPath) : await toolCache.extractTar(downloadPath)
   core.info(`Successfully extracted age to ${extractPath}`)
 
   core.info("Adding age to the cache...")

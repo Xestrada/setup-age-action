@@ -79,9 +79,9 @@ function getArch(arch) {
 }
 function getAgePath(version) {
     return __awaiter(this, void 0, void 0, function () {
-        var foundCachePath, platform, arch, downloadUrl, downloadPath, extractPath, cachePath;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var foundCachePath, platform, fileType, arch, downloadUrl, downloadPath, extractPath, _a, cachePath;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     foundCachePath = toolCache.find("age", version);
                     if (foundCachePath) {
@@ -89,25 +89,35 @@ function getAgePath(version) {
                         return [2 /*return*/, foundCachePath];
                     }
                     platform = os_1.default.platform();
+                    fileType = 'tar.gz';
                     if (platform === 'win32') {
                         platform = 'windows';
+                        fileType = 'zip';
                     }
                     arch = getArch(os_1.default.arch());
-                    downloadUrl = "https://github.com/FiloSottile/age/releases/download/" + version + "/age-" + version + "-" + platform + "-" + arch + ".tar.gz";
+                    downloadUrl = "https://github.com/FiloSottile/age/releases/download/" + version + "/age-" + version + "-" + platform + "-" + arch + "." + fileType;
                     core.info("Downloading age version " + version + " from " + downloadUrl);
                     return [4 /*yield*/, toolCache.downloadTool(downloadUrl)];
                 case 1:
-                    downloadPath = _a.sent();
+                    downloadPath = _b.sent();
                     core.info("Successfully downloaded age to " + downloadPath);
                     core.info("Extracting age...");
-                    return [4 /*yield*/, toolCache.extractTar(downloadPath)];
+                    if (!(fileType === 'zip')) return [3 /*break*/, 3];
+                    return [4 /*yield*/, toolCache.extractZip(downloadPath)];
                 case 2:
-                    extractPath = _a.sent();
+                    _a = _b.sent();
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, toolCache.extractTar(downloadPath)];
+                case 4:
+                    _a = _b.sent();
+                    _b.label = 5;
+                case 5:
+                    extractPath = _a;
                     core.info("Successfully extracted age to " + extractPath);
                     core.info("Adding age to the cache...");
                     return [4 /*yield*/, toolCache.cacheDir(extractPath, "age", version)];
-                case 3:
-                    cachePath = _a.sent();
+                case 6:
+                    cachePath = _b.sent();
                     core.info("Successfully cached age to " + cachePath);
                     return [2 /*return*/, cachePath];
             }
